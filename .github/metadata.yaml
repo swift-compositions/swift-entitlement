@@ -1,0 +1,9 @@
+description: "Generic grant and deny entitlement decisions with expiry and override precedence for Swift."
+topics:
+  - foundations
+  - entitlement
+  - capability
+  - policy
+homepage: "https://swift-institute.org"
+readme:
+  family: E

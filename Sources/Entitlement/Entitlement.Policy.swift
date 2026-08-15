@@ -71,8 +71,10 @@ extension Entitlement.Policy {
         switch (candidate.priority, current.priority) {
         case (.override, .base):
             return candidate
+
         case (.base, .override):
             return current
+
         default:
             break
         }
@@ -80,6 +82,7 @@ extension Entitlement.Policy {
         switch (candidate.effect, current.effect) {
         case (.deny, .grant):
             return candidate
+
         default:
             return current
         }

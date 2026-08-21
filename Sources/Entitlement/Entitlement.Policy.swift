@@ -1,21 +1,8 @@
-// ===----------------------------------------------------------------------===//
-//
-// This source file is part of the swift-entitlement open source project
-//
-// Copyright (c) 2026 Coen ten Thije Boonkkamp and the swift-entitlement
-// project authors
-// Licensed under Apache License v2.0
-//
-// See LICENSE.md for license information
-//
-// ===----------------------------------------------------------------------===//
-
 extension Entitlement {
-    /// A collection of entitlement rules resolved for one capability at a time.
+
     public struct Policy<Capability: Equatable, Instant: Comparable, Source> {
         private let rules: [Rule<Capability, Instant, Source>]
 
-        /// Creates a policy from caller-owned rules.
         public init(rules: [Rule<Capability, Instant, Source>]) {
             self.rules = rules
         }
@@ -23,7 +10,7 @@ extension Entitlement {
 }
 
 extension Entitlement.Policy {
-    /// Resolves a capability at the supplied instant.
+
     public func decision(
         for capability: Capability,
         at instant: Instant

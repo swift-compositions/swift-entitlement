@@ -21,7 +21,7 @@ Grant and deny capability entitlements with expiry and explicit override precede
 ```swift
 dependencies: [
     .package(
-        url: "https://github.com/swift-foundations/swift-entitlement.git",
+        url: "https://github.com/swift-compositions/swift-entitlement.git",
         branch: "main"
     )
 ]

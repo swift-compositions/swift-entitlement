@@ -2,15 +2,6 @@
 
 import PackageDescription
 
-extension String {
-    static let entitlement: Self = "Entitlement"
-    var tests: Self { self + " Tests" }
-}
-
-extension Target.Dependency {
-    static var entitlement: Self { .target(name: .entitlement) }
-}
-
 let package = Package(
     name: "swift-entitlement",
     platforms: [
@@ -23,20 +14,20 @@ let package = Package(
     ],
     products: [
         .library(
-            name: .entitlement,
-            targets: [.entitlement]
+            name: "Entitlement",
+            targets: ["Entitlement"]
         )
     ],
     dependencies: [],
     targets: [
         .target(
-            name: .entitlement,
+            name: "Entitlement",
             dependencies: []
         ),
         .testTarget(
-            name: .entitlement.tests,
+            name: "Entitlement Tests",
             dependencies: [
-                .entitlement
+                .target(name: "Entitlement")
             ]
         ),
     ],

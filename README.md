@@ -1,66 +1,12 @@
 # swift-entitlement
 
-![Development Status](https://img.shields.io/badge/status-active--development-orange.svg)
+Use this package when you decide whether a user or account may use a feature, from rules that grant or deny it, can expire, and can be overridden, and you want to know which rule decided. Build an `Entitlement.Policy` from `Entitlement.Rule` values and ask it with `Entitlement.Policy.decision(for:at:)`. You supply the capability, time and source types.
 
-Grant and deny capability entitlements with expiry and explicit override precedence.
+## Laws
 
----
-
-## Key Features
-
-- **Default deny** — Capabilities without an applicable rule are denied.
-- **Explicit outcomes** — Rules grant or deny a caller-supplied capability.
-- **Expiry boundaries** — Callers supply their own comparable instant type.
-- **Override precedence** — Override rules take precedence over base rules.
-- **Decision context** — Results retain the winning reason and source.
-
----
-
-## Installation
-
-```swift
-dependencies: [
-    .package(
-        url: "https://github.com/swift-compositions/swift-entitlement.git",
-        branch: "main"
-    )
-]
-```
-
-```swift
-.target(
-    name: "YourTarget",
-    dependencies: [
-        .product(name: "Entitlement", package: "swift-entitlement")
-    ]
-)
-```
-
----
-
-## Quick Start
-
-```swift
-import Entitlement
-
-let rules = [
-    Entitlement.Rule(
-        capability: "reports", effect: .grant, expiration: 10, priority: .base,
-        source: "plan"
-    ),
-    Entitlement.Rule(
-        capability: "reports", effect: .deny, expiration: nil, priority: .override,
-        source: "administrator"
-    ),
-]
-
-let policy = Entitlement.Policy(rules: rules)
-let decision = policy.decision(for: "reports", at: 5)
-print(decision.effect)
-```
-
----
-
-## License
-
-Licensed under the [Apache License, Version 2.0](LICENSE.md).
+- Denial is the default. With no rule for the capability, the decision is deny with reason `Entitlement.Decision.Reason.absent` and no source.
+- A rule has expired once the instant reaches its expiration. The boundary is excluded: a rule expiring at 10 applies at 9 and not at 10. A rule with no expiration never expires.
+- Among rules that haven't expired, an override rule beats a base rule. At the same priority, deny beats grant. Between rules that tie on both, the one listed first wins.
+- An expired rule never grants. If every matching rule has expired, the decision is deny with reason `Entitlement.Decision.Reason.expired`, and its source is the expired rule that would have won.
+- Expired rules are ignored as soon as one live rule matches, whatever its priority.
+- The decision carries the source of the winning rule, so you can tell a plan from an administrator's override.

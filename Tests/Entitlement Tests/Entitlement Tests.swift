@@ -2,7 +2,9 @@ import Testing
 
 @testable import Entitlement
 
-extension Entitlement {
+enum `Entitlement Tests` {}
+
+extension `Entitlement Tests` {
     @Suite
     struct Test {
         @Test
